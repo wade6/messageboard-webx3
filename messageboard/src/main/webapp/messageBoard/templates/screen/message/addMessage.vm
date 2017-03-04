@@ -1,0 +1,15 @@
+<form action="" method="post" >
+    <input type="hidden" name="action" value="messageAction"/>
+	<input type="hidden" name="author" value="$!username" />
+	<p>
+        <label>标题：</label>
+		<input type="text" name="title" value=""/>
+    </p>
+	<p>
+		<label>内容：</label>
+        <textarea rows="10" cols="80"   name="content"></textarea>
+    </p>
+    <input type="submit" value="提交" name="event_submit_do_add_message"/>
+	<input type="reset" value="重置" />	
+    <p>$!message</p>
+</form>

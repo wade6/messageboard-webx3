@@ -1,0 +1,24 @@
+<form action="" method="post">
+    $csrfToken.hiddenField
+    <input type="hidden" name="action" value="userAction"/>
+	#set ($group = $form.login.defaultInstance)
+    <p>你好，请登录...</p>
+	#if (!$group.username.valid)
+		<p>$!group.username.message</p>
+	#end
+	#if (!$group.password.valid)
+		<p>$!group.password.message</p>
+	#end
+    <p>$!message</p>
+    <p>
+		<label>用户名：</label>
+		<input type="text" name="$group.username.key" value="$!group.username.value"/>
+    <p/>
+		<label>密&nbsp;&nbsp;&nbsp;&nbsp;码：</label>
+		<input type="password" name="$group.password.key" value=""/>
+    <p/>
+		<input type="submit" value="登陆" name="event_submit_do_login"/>
+		<input type="reset" value="重置" />
+		<input type="button" value="注册" onclick="location='$messageBoardLink.setTarget("register")'" />
+    </p>
+</form>

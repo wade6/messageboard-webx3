@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="user">
+	<typeAlias alias="userDO" type="com.alibaba.webx3.messageboard.dao.object.UserDO" />
+	
+	<insert id="insertUser" parameterClass="userDO" >
+	insert into user (
+	            id,
+	            username,
+	            password,
+	            gmt_create,
+	            gmt_modified
+	         )  values (
+	           #id#,
+	           #username#,
+	           #password#,
+	           now(),
+	           now()
+	         )
+	  <selectKey resultClass="int" keyProperty="id">
+     	<![CDATA[SELECT LAST_INSERT_ID() AS ID ]]>
+      </selectKey>
+	</insert>
+	
+	<select id="selectByUsername" parameterClass="String" resultClass="userDO" >
+	select
+	      id,
+	      username,
+	      password,
+	      gmt_create,
+	      gmt_modified
+	from
+	      user
+	where
+	      username=#username#
+	</select>
+	
+	<update id="updateuser" parameterClass="userDO">
+	update 
+	       user
+	set
+	       gmt_modified = now()
+	   <dynamic prepend="" >
+			<isNotEmpty prepend="," property="username">
+				username = #username#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="password">
+				password = #password#
+			</isNotEmpty>
+		</dynamic>
+    	where id = #id#    
+	
+	</update>
+	
+	<delete id="deleteuser" parameterClass="userDO">
+	delete 
+	
+	from 
+	       user
+	where 
+	       id=#id#
+	</delete>
+	
+</sqlMap>

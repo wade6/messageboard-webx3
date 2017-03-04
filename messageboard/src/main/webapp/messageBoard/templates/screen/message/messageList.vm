@@ -1,0 +1,37 @@
+<div style="font-size:10pt">  
+<p>留言列表&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  
+    <a  href="$messageBoardLink.setTarget("message/addMessage")">添加留言</a>  
+</p>  
+<p style="color:red">$!message</p>  
+<p>--------------------------------------------------------</p>  
+<form action="" method="post" target="_self">  
+    $csrfToken.hiddenField  
+    <input type="hidden" name="action" value="messageAction"/>  
+      
+    #foreach($messageItem in $messageList)  
+        <p>标题：$!messageItem.title</p>  
+        <p>作者：$!messageItem.author</p>  
+          
+        <div style="color:blue">  
+        <p>$!messageItem.content</p>  
+        </div>  
+        #if($admin==true||$username==$messageItem.author)  
+        <a href='#' onclick="deleteMessage($messageItem.id)">删除</a>  
+        <a href='$messageBoardLink.setTarget("message/modifyMessage").addQueryData("messageId", $messageItem.id)'>编辑</a>  
+        #end  
+        <p>--------------------------------------------------------</p>  
+    #end  
+      
+    <input type="hidden" id="messageId" name="messageId" value="$messageItem.id">  
+    <input type="submit" id="delete" style="display:none;"  name="event_submit_do_delete" />  
+    </form>  
+</div>  
+  
+<script>  
+function deleteMessage(id){  
+if(confirm("确定要删除？")){  
+document.getElementById("messageId").value=id;  
+document.getElementById("delete").click();  
+}  
+}  
+</script>  

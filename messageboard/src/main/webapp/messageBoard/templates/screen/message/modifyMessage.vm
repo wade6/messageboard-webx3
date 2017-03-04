@@ -1,0 +1,19 @@
+<form action="" method="post" >
+    <input type="hidden" name="action" value="messageAction"/>
+	
+	<input type="hidden" name="author" value="$!username" />
+	<input type="hidden" name="id" value="$messageDO.id" />
+	
+    <p>$!message</p>
+	<p>
+        <label>标题：</label>
+		<input type="text" name="title" value="$messageDO.title" />
+    </p>
+	<p>
+		<label>内容：</label>
+        <textarea rows="10" cols="60"   name="content">$messageDO.content</textarea>
+    </p>
+    <input type="submit" value="提交" name="event_submit_do_modify_message"/>
+	<input type="reset" value="重置" />	
+    <p>$!message</p>
+</form>

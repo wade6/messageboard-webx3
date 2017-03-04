@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:p="http://www.springframework.org/schema/p" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+				http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+				http://www.springframework.org/schema/context 
+				http://www.springframework.org/schema/context/spring-context-2.5.xsd
+				http://www.springframework.org/schema/aop
+            	http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
+				http://www.springframework.org/schema/tx 
+				http://www.springframework.org/schema/tx/spring-tx-2.5.xsd">
+
+<!-- 数据库配置 -->
+<bean id= "dataSource" class="org.apache.commons.dbcp.BasicDataSource">
+	<property name="driverClassName" value="com.mysql.jdbc.Driver"></property>
+	<property name="url" value="jdbc:mysql://localhost:3306/message_board"></property>
+	<property name="username" value="webx"></property>
+	<property name="password" value="webx"></property>
+	<property name="minIdle" value="0" ></property>
+	<property name="maxWait" value="-1"></property>
+</bean>
+
+<bean id="transactionManager"
+		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSource" />
+</bean>
+
+<bean id="transactionTemplate"
+      class="org.springframework.transaction.support.TransactionTemplate">
+      <property name="transactionManager" ref="transactionManager"></property>
+</bean>
+
+<!-- iBatis SQL map定义 -->
+	<bean id="sqlMapClient" class="org.springframework.orm.ibatis.SqlMapClientFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+		<property name="configLocation" value="classpath:sqlmap-config.xml" />
+	</bean>
+</beans>

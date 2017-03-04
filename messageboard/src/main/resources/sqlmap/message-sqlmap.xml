@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="message" >
+	<typeAlias alias="messageDO" type="com.alibaba.webx3.messageboard.dao.object.MessageDO" />
+	
+	<insert id="insertMessage" parameterClass="messageDO" >
+	insert into message (
+	            id,
+	            title,
+	            author,
+	            content,
+	            gmt_create,
+	            gmt_modified
+	         )  values (
+	           #id#,
+	           #title#,
+	           #author#,
+	           #content#,
+	           now(),
+	           now()
+	         )
+	  <selectKey resultClass="int" keyProperty="id">
+     	<![CDATA[SELECT LAST_INSERT_ID() AS ID ]]>
+      </selectKey>
+	</insert>
+	
+	<select id="selectById" parameterClass="int" resultClass="messageDO" >
+	select
+	      id,
+          title,
+          author,
+          content,
+          gmt_create,
+          gmt_modified
+	from
+	      message
+	where
+	      id=#id#
+	</select>
+	
+	<select id="selectBylist" parameterClass="map" resultClass="messageDO" >
+	select
+	      id,
+          title,
+          author,
+          content,
+          gmt_create,
+          gmt_modified
+	from
+	      message
+	      
+	order by gmt_modified desc
+	
+	limit #from#,#size#
+	
+	</select>
+	
+	<update id="updateMessage" parameterClass="messageDO">
+	update 
+	       message
+	set
+	       gmt_modified = now()
+	   <dynamic prepend="" >
+			<isNotEmpty prepend="," property="title">
+				title = #title#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="author">
+				author = #author#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="content">
+				content = #content#
+			</isNotEmpty>
+		</dynamic>
+    	where id = #id#    
+	
+	</update>
+	
+	<delete id="deleteMessage" parameterClass="int">
+	delete 
+	
+	from 
+	      message
+	where 
+	      id=#id#
+	</delete>
+	
+</sqlMap>
